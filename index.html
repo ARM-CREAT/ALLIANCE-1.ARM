@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="fr" class="h-full">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+    <meta name="theme-color" content="#009739" />
+    <title>A.R.M - Alliance pour le Rassemblement Malien</title>
+    <meta name="description" content="Site officiel du parti A.R.M. Fraternité, Liberté, Égalité." />
+    
+    <!-- Sécurité & Perf -->
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'self' blob: data: gap:; style-src * 'self' 'unsafe-inline' blob: data: gap:; script-src * 'self' 'unsafe-eval' 'unsafe-inline' blob: data: gap:; object-src * 'self' blob: data: gap:; img-src * 'self' 'unsafe-inline' blob: data: gap:; connect-src * 'self' blob: data: gap:; frame-src * 'self' blob: data: gap:;">
+    <link rel="preconnect" href="https://aistudiocdn.com" crossorigin />
+    <link rel="preconnect" href="https://cdn.tailwindcss.com" crossorigin />
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="/public/manifest.json" />
+    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/12308/12308603.png">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              arm: {
+                green: '#009739', // Mali Green
+                gold: '#FCD116',  // Mali Yellow
+                red: '#CE1126',   // Mali Red
+                dark: '#0f5132'
+              }
+            },
+            animation: {
+                'bounce-slow': 'bounce 3s infinite',
+                'fade-in': 'fadeIn 0.3s ease-out',
+                'slide-up': 'slideUp 0.5s ease-out',
+            },
+            keyframes: {
+                fadeIn: {
+                    '0%': { opacity: '0' },
+                    '100%': { opacity: '1' },
+                },
+                slideUp: {
+                    '0%': { transform: 'translateY(100%)' },
+                    '100%': { transform: 'translateY(0)' },
+                }
+            }
+          }
+        }
+      }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+      body { font-family: 'Inter', sans-serif; overscroll-behavior-y: none; -webkit-tap-highlight-color: transparent; }
+      .hide-scrollbar::-webkit-scrollbar { display: none; }
+      .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      
+      /* Animation du loader initial */
+      .initial-loader {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background-color: #f9fafb; display: flex; flex-direction: column;
+        align-items: center; justify-content: center; z-index: 9999;
+      }
+      .loader-spinner {
+        border: 4px solid #f3f3f3; border-top: 4px solid #009739;
+        border-radius: 50%; width: 50px; height: 50px;
+        animation: spin 1s linear infinite;
+      }
+      .error-message { display: none; margin-top: 20px; text-align: center; }
+      @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.555.0",
+    "react-router-dom": "https://aistudiocdn.com/react-router-dom@^7.9.6",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0"
+  }
+}
+</script>
+</head>
+  <body class="bg-gray-50 text-gray-900 antialiased h-full pb-safe selection:bg-arm-green selection:text-white">
+    <div id="root" class="h-full">
+      <!-- Contenu visible AVANT que React ne charge -->
+      <div class="initial-loader" id="loader">
+         <div class="mb-6">
+            <svg width="80" height="80" viewBox="0 0 500 500">
+               <rect width="500" height="500" rx="100" fill="#009739"/>
+               <circle cx="250" cy="250" r="150" fill="white"/>
+               <circle cx="250" cy="250" r="140" fill="#FCD116"/>
+               <text x="50%" y="55%" text-anchor="middle" font-family="sans-serif" font-weight="900" font-size="120" fill="black">ARM</text>
+            </svg>
+         </div>
+         <div class="loader-spinner"></div>
+         <p id="loader-text" style="margin-top: 20px; color: #4b5563; font-weight: 600; font-size: 14px;">Chargement...</p>
+         
+         <div id="loader-error" class="error-message">
+             <p style="color: #ef4444; font-weight: bold; margin-bottom: 10px;">Le chargement est lent...</p>
+             <button onclick="window.location.reload()" style="background: #009739; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer;">
+                 Recharger
+             </button>
+         </div>
+      </div>
+    </div>
+    <script>
+        // Sécurité anti-ecran blanc : si React ne prend pas la main après 8s
+        setTimeout(() => {
+            const loader = document.getElementById('loader');
+            const errorDiv = document.getElementById('loader-error');
+            const textDiv = document.getElementById('loader-text');
+            if (loader && document.getElementById('root').contains(loader)) {
+                if (errorDiv) errorDiv.style.display = 'block';
+                if (textDiv) textDiv.style.display = 'none';
+            }
+        }, 8000);
+    </script>
+  </body>
+</html>
