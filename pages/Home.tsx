@@ -1,24 +1,30 @@
 
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Users, Shield, BookOpen, BarChart, CheckCircle2 } from 'lucide-react';
+import { ArrowRight, Users, Shield, BookOpen, BarChart, Calendar, Newspaper } from 'lucide-react';
 import { APP_FULL_NAME, MOTTO, PROGRAM, LOGO_URL } from '../constants';
 import { MaliMap } from '../components/MaliMap';
 import { StorageService } from '../services/storage';
-import { Poll } from '../types';
+import { Poll, NewsItem } from '../types';
 import { useToast } from '../App';
 
 export const Home: React.FC = () => {
   const [activePoll, setActivePoll] = useState<Poll | null>(null);
+  const [recentNews, setRecentNews] = useState<NewsItem[]>([]);
   const [hasVoted, setHasVoted] = useState(false);
   const { showToast } = useToast();
 
   useEffect(() => {
+    // Charger le sondage actif
     const polls = StorageService.getPolls();
     if (polls.length > 0 && polls[0].isActive) {
         setActivePoll(polls[0]);
         setHasVoted(StorageService.hasVoted(polls[0].id));
     }
+
+    // Charger les 2 dernières actualités
+    const news = StorageService.getNews();
+    setRecentNews(news.slice(0, 2));
   }, []);
 
   const handleVote = (optionId: string) => {
@@ -72,7 +78,7 @@ export const Home: React.FC = () => {
       </div>
 
       {/* Stats / Quick Info */}
-      <div className="max-w-7xl mx-auto px-4 -mt-20 relative z-20 w-full">
+      <div className="max-w-7xl mx-auto px-4 -mt-20 relative z-20 w-full mb-12">
          <div className="bg-white rounded-2xl shadow-xl p-6 grid grid-cols-3 divide-x divide-gray-100">
              <div className="text-center">
                  <p className="text-2xl font-bold text-gray-900">10k+</p>
@@ -89,9 +95,41 @@ export const Home: React.FC = () => {
          </div>
       </div>
 
+      {/* Actualités Récentes (Preview) */}
+      <div className="max-w-7xl mx-auto px-4 mb-12">
+        <div className="flex justify-between items-center mb-6">
+            <h2 className="text-2xl font-bold text-gray-900 flex items-center">
+                <Newspaper className="w-6 h-6 mr-2 text-arm-green" />
+                À la une
+            </h2>
+            <Link to="/actualites" className="text-sm font-semibold text-arm-green hover:underline">
+                Voir tout
+            </Link>
+        </div>
+        <div className="grid md:grid-cols-2 gap-6">
+            {recentNews.map(item => (
+                <Link key={item.id} to="/actualites" className="group bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-all flex">
+                    <div className="w-1/3 bg-gray-200 relative">
+                        <img src={item.image} alt={item.title} className="absolute inset-0 w-full h-full object-cover" />
+                    </div>
+                    <div className="w-2/3 p-4">
+                        <span className="text-xs font-bold text-arm-green uppercase mb-1 block">{item.category}</span>
+                        <h3 className="font-bold text-gray-900 mb-2 leading-tight group-hover:text-arm-green transition-colors line-clamp-2">
+                            {item.title}
+                        </h3>
+                        <div className="flex items-center text-xs text-gray-400 mt-auto">
+                            <Calendar className="w-3 h-3 mr-1" />
+                            {new Date(item.date).toLocaleDateString()}
+                        </div>
+                    </div>
+                </Link>
+            ))}
+        </div>
+      </div>
+
       {/* SONDAGE CARD */}
       {activePoll && (
-          <div className="px-4 py-8 max-w-lg mx-auto w-full animate-fade-in">
+          <div className="px-4 mb-12 max-w-lg mx-auto w-full animate-fade-in">
               <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
                   <div className="bg-gray-50 px-6 py-4 border-b border-gray-100 flex items-center">
                        <BarChart className="w-5 h-5 text-arm-green mr-2" />
@@ -133,7 +171,7 @@ export const Home: React.FC = () => {
       )}
 
       {/* Features Grid */}
-      <div className="py-12 bg-gray-50">
+      <div className="py-12 bg-gray-50 mt-auto">
           <div className="max-w-7xl mx-auto px-4">
               <div className="text-center mb-10">
                   <h2 className="text-3xl font-bold text-gray-900">Nos Priorités</h2>
