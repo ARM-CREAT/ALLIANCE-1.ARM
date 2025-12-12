@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Users, Heart, Phone, Shield, Image as ImageIcon, Briefcase, ChevronRight, Share2, RefreshCw } from 'lucide-react';
+import { Users, Heart, Phone, Shield, Image as ImageIcon, Briefcase, ChevronRight, Share2, RefreshCw, LogIn } from 'lucide-react';
 import { APP_NAME } from '../constants';
 import { useToast } from '../App';
 
@@ -9,6 +9,7 @@ export const MobileMenu: React.FC = () => {
     const { showToast } = useToast();
     
     const menuItems = [
+        { name: 'Connexion', path: '/login', icon: LogIn, color: 'text-gray-700', bg: 'bg-gray-100' },
         { name: 'Le Bureau', path: '/equipe', icon: Briefcase, color: 'text-blue-600', bg: 'bg-blue-100' },
         { name: 'Médiathèque', path: '/mediatheque', icon: ImageIcon, color: 'text-purple-600', bg: 'bg-purple-100' },
         { name: 'Adhérer au Parti', path: '/adhesion', icon: Users, color: 'text-arm-green', bg: 'bg-green-100' },
@@ -80,7 +81,7 @@ export const MobileMenu: React.FC = () => {
             </div>
 
             <div className="mt-8 text-center">
-                <p className="text-xs text-gray-400">A.R.M Mobile v1.0.5</p>
+                <p className="text-xs text-gray-400">A.R.M Mobile v1.0.6</p>
                 <p className="text-[10px] text-gray-300 mt-1">© 2025 Tous droits réservés</p>
             </div>
         </div>

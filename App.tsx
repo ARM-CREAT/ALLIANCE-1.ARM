@@ -13,6 +13,7 @@ import { Contact } from './pages/Contact';
 import { Admin } from './pages/Admin';
 import { Media } from './pages/Media';
 import { Chat } from './pages/Chat';
+import { Login } from './pages/Login';
 import { MobileMenu } from './pages/MobileMenu'; 
 import { FloatingCallButton } from './components/FloatingCallButton';
 import { ToastContainer, ToastMessage, ToastType, OfflineBanner } from './components/UI';
@@ -71,6 +72,7 @@ const App: React.FC = () => {
             <div className="flex-grow pb-16 lg:pb-0"> 
               <Routes>
                 <Route path="/" element={<PageTransition><Home /></PageTransition>} />
+                <Route path="/login" element={<PageTransition><Login /></PageTransition>} />
                 <Route path="/programme" element={<PageTransition><Program /></PageTransition>} />
                 <Route path="/equipe" element={<PageTransition><Team /></PageTransition>} />
                 <Route path="/mediatheque" element={<PageTransition><Media /></PageTransition>} />

@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Home, Users, BookOpen, MessageSquare, Menu, Heart, Image as ImageIcon, Newspaper } from 'lucide-react';
+import { Home, Users, BookOpen, MessageSquare, Menu, Heart, Image as ImageIcon, Newspaper, LogIn } from 'lucide-react';
 import { APP_NAME, LOGO_URL } from '../constants';
 
 export const Navbar: React.FC = () => {
@@ -56,6 +56,17 @@ export const Navbar: React.FC = () => {
                   {link.name}
                 </Link>
               ))}
+              
+               <Link
+                to="/login"
+                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors flex items-center ${
+                    isActive('/login') ? 'text-arm-green bg-green-50' : 'text-gray-600 hover:text-arm-green'
+                }`}
+              >
+                <LogIn className="w-4 h-4 mr-1.5" />
+                Mon Espace
+              </Link>
+
               <Link
                 to="/faire-un-don"
                 className="ml-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-full shadow-sm text-white bg-arm-gold hover:bg-yellow-500 transition-transform hover:scale-105"
