@@ -1,18 +1,18 @@
-
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Users, Shield, BookOpen, BarChart, Calendar, Newspaper } from 'lucide-react';
+import { ArrowRight, Users, Shield, BookOpen, BarChart, Calendar, Newspaper, Download } from 'lucide-react';
 import { APP_FULL_NAME, MOTTO, PROGRAM, LOGO_URL } from '../constants';
 import { MaliMap } from '../components/MaliMap';
 import { StorageService } from '../services/storage';
 import { Poll, NewsItem } from '../types';
-import { useToast } from '../App';
+import { useToast, useInstall } from '../App';
 
 export const Home: React.FC = () => {
   const [activePoll, setActivePoll] = useState<Poll | null>(null);
   const [recentNews, setRecentNews] = useState<NewsItem[]>([]);
   const [hasVoted, setHasVoted] = useState(false);
   const { showToast } = useToast();
+  const { deferredPrompt, installApp, isInstalled } = useInstall();
 
   useEffect(() => {
     // Charger le sondage actif
@@ -64,9 +64,16 @@ export const Home: React.FC = () => {
                         <Link to="/adhesion" className="bg-white text-arm-green font-bold py-3 px-8 rounded-full shadow-lg hover:bg-gray-100 transform transition hover:scale-105">
                             Adhérer maintenant
                         </Link>
-                        <Link to="/programme" className="bg-arm-gold text-gray-900 font-bold py-3 px-8 rounded-full shadow-lg hover:bg-yellow-400 transform transition hover:scale-105">
-                            Notre Vision
-                        </Link>
+                        {deferredPrompt && !isInstalled ? (
+                             <button onClick={installApp} className="bg-arm-gold text-gray-900 font-bold py-3 px-8 rounded-full shadow-lg hover:bg-yellow-400 transform transition hover:scale-105 flex items-center justify-center">
+                                <Download className="w-5 h-5 mr-2" />
+                                Installer l'App
+                             </button>
+                        ) : (
+                            <Link to="/programme" className="bg-arm-gold text-gray-900 font-bold py-3 px-8 rounded-full shadow-lg hover:bg-yellow-400 transform transition hover:scale-105">
+                                Notre Vision
+                            </Link>
+                        )}
                     </div>
                 </div>
                 <div className="w-48 h-48 lg:w-80 lg:h-80 relative animate-slide-up hidden md:block">
